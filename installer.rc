@@ -1,0 +1,30 @@
+// installer.rc — AngerMU Installer resources
+// Compilar: windres installer.rc -O coff -o installer.res
+//
+// Estrutura esperada de assets/:
+//   assets/background.png       — 600x400, fundo da janela
+//   assets/btn_close.png        — (3 * BTN_CLOSE_W) x BTN_CLOSE_H
+//                                  3 frames lado a lado: normal | hover | click
+//   assets/btn_min.png          — (3 * BTN_MIN_W) x BTN_MIN_H
+//                                  3 frames lado a lado: normal | hover | click
+//   assets/bar_bg.png           — 540x28, fundo da barra de progresso
+//   assets/bar_fill.png         — 540x28, fill da barra (esticado em X pelo código)
+//
+// Todos os arquivos podem ser PNG ou BMP (GDI+ aceita ambos via IStream).
+
+#include <windows.h>
+
+1 ICON "assets/icon.ico"
+
+// ── Assets embutidos como RCDATA ────────────────────────────
+101 RCDATA "assets/background.png"
+102 RCDATA "assets/btn_close.png"
+103 RCDATA "assets/btn_min.png"
+//104 RCDATA "assets/bar_bg.png"
+105 RCDATA "assets/bar_fill.png"
+106 RCDATA "assets/btn_play.png"
+107 RCDATA "assets/Uninstall.exe"
+
+// ── Manifest: evita virtualização de UAC e força DPI aware ──
+// (necessário se não usar pragma comment ou arquivo .manifest externo)
+1 RT_MANIFEST "installer.manifest"

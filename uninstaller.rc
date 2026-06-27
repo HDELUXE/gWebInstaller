@@ -1,0 +1,10 @@
+// uninstaller.rc — AngerMU Uninstaller resources
+// Compilar: windres uninstaller.rc -O coff -o uninstaller.res
+
+#include <windows.h>
+
+// Mesmo ícone do installer
+1 ICON "assets/icon.ico"
+
+// Manifest com requisição de admin
+1 RT_MANIFEST "uninstaller.manifest"

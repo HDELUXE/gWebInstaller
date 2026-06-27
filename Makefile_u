@@ -1,0 +1,47 @@
+# Makefile — AngerMU Uninstaller
+# Requer: MinGW32, windres
+#
+# Uso:
+#   make          → build release (Uninstall.exe)
+#   make debug    → build com símbolos
+#   make clean    → remove artefatos
+
+CXX      := C:/msys6432/mingw32/bin/g++
+WINDRES  := C:/msys6432/mingw32/bin/windres
+
+TARGET   := Uninstall.exe
+SRC      := uninstaller.cpp
+RES_SRC  := uninstaller.rc
+RES_OBJ  := uninstaller.res
+
+CXXFLAGS := -std=c++17 -Wall -Wextra \
+            -DUNICODE -D_UNICODE \
+            -I.
+
+LDFLAGS  := -mwindows -static \
+            -lshell32 -ladvapi32 -lole32\
+            -lstdc++ -lgcc -lmingwex -lmsvcrt \
+            -static-libgcc -static-libstdc++ \
+            -Wl,-Bstatic -lpthread -Wl,-Bdynamic
+
+CXXFLAGS_REL := -O2 -DNDEBUG
+CXXFLAGS_DBG := -O0 -g -DDEBUG
+
+# ── Targets ──────────────────────────────────────────────────
+
+all: $(TARGET)
+
+debug: CXXFLAGS += $(CXXFLAGS_DBG)
+debug: TARGET := Uninstall_dbg.exe
+debug: $(TARGET)
+
+$(TARGET): $(SRC) $(RES_OBJ)
+	$(CXX) $(CXXFLAGS) $(CXXFLAGS_REL) -o $@ $(SRC) $(RES_OBJ) $(LDFLAGS)
+
+$(RES_OBJ): $(RES_SRC) uninstaller.manifest
+	$(WINDRES) $(RES_SRC) -O coff -o $(RES_OBJ)
+
+clean:
+	del /Q $(TARGET) $(RES_OBJ) 2>nul || rm -f $(TARGET) $(RES_OBJ)
+
+.PHONY: all debug clean
