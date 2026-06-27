@@ -10,13 +10,13 @@ CXX      := C:/msys6432/mingw32/bin/g++
 WINDRES  := C:/msys6432/mingw32/bin/windres
 
 TARGET   := AngerMU_Installer.exe
-SRC      := installer.cpp miniz/miniz.c
+SRC      := installer.cpp miniz.c
 RES_SRC  := installer.rc
 RES_OBJ  := installer.res
 
 CXXFLAGS := -std=c++17 -Wall -Wextra \
             -DUNICODE -D_UNICODE \
-            -I. -I./miniz/
+            -I.
  
 LDFLAGS  := -mwindows -static \
             -lwininet -lgdiplus -lshell32 \
